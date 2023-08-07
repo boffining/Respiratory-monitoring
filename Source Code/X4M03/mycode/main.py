@@ -7,7 +7,7 @@ from pymoduleconnector import DataType
 from xep_data import Xep_data
 import processing
 
-device_name = 'COM3'
+device_name = 'ttyACM0'
 FPS = 17
 iterations = 16
 pulses_per_step = 300
