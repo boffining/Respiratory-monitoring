@@ -1,7 +1,7 @@
 import pymoduleconnector
 import time
 
-device_name = "/dev/ttyACM0"
+device_name = "ttyACM0"
 
 mc = pymoduleconnector.ModuleConnector(device_name)
 xep = mc.get_xep()
