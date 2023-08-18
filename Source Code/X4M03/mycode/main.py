@@ -1,4 +1,7 @@
-import numpy as np
+# import numpy as np
+from numpy import loadtxt
+from numpy.processing import slice_datamatrix, get_diffmatrix, get_median_matrix, get_stdmatrix, get_avrmatrix, get_minmatrix
+
 from time import sleep
 
 import pymoduleconnector
@@ -20,8 +23,10 @@ sample_time = 70
 slice_time_start = 10
 slice_time_end = sample_time
 
-env_amp_datamatrix = np.loadtxt('./data/exp8/datamatrix_env_sampletime70s/amp_matrix.txt')
-obj_amp_datamatrix = np.loadtxt('./data/exp8/datamatrix_apart_sampletime70s/amp_matrix.txt')
+# env_amp_datamatrix = np.loadtxt('./data/exp8/datamatrix_env_sampletime70s/amp_matrix.txt')
+# obj_amp_datamatrix = np.loadtxt('./data/exp8/datamatrix_apart_sampletime70s/amp_matrix.txt')
+env_amp_datamatrix = loadtxt('./data/exp8/datamatrix_env_sampletime70s/amp_matrix.txt')
+obj_amp_datamatrix = loadtxt('./data/exp8/datamatrix_apart_sampletime70s/amp_matrix.txt')
 
 
 if __name__ == '__main__':
@@ -33,19 +38,19 @@ if __name__ == '__main__':
     # my_xep1.plot_frame(a, b, sample_time)
     # print(a.shape)
 
-    obj_amp_datamatrix = processing.slice_datamatrix(obj_amp_datamatrix, slice_time_start, slice_time_end, FPS)
-    env_amp_datamatrix = processing.slice_datamatrix(env_amp_datamatrix, slice_time_start, slice_time_end, FPS)
+    obj_amp_datamatrix = slice_datamatrix(obj_amp_datamatrix, slice_time_start, slice_time_end, FPS)
+    env_amp_datamatrix = slice_datamatrix(env_amp_datamatrix, slice_time_start, slice_time_end, FPS)
     obj_amp_datamatrix[:,:4] = 0
     env_amp_datamatrix[:,:4] = 0
-    obj_dif_datamatrix = processing.get_diffmatrix(obj_amp_datamatrix)
+    obj_dif_datamatrix = get_diffmatrix(obj_amp_datamatrix)
     sub_amp_datamatrix = obj_amp_datamatrix - env_amp_datamatrix
     # sub_amp_datamatrix[:,50:60] = 0
-    med_obj_datamatrix = processing.get_median_matrix(sub_amp_datamatrix)
-    std_obj_datamatrix = processing.get_stdmatrix(obj_amp_datamatrix)
-    sub_avr_datamatrix = processing.get_avrmatrix(sub_amp_datamatrix)
-    env_avr_datamatrix = processing.get_avrmatrix(env_amp_datamatrix)
-    obj_avr_datamatrix = processing.get_avrmatrix(obj_amp_datamatrix)
-    sub_min_datamatrix = processing.get_minmatrix(sub_amp_datamatrix)
+    med_obj_datamatrix = get_median_matrix(sub_amp_datamatrix)
+    std_obj_datamatrix = get_stdmatrix(obj_amp_datamatrix)
+    sub_avr_datamatrix = get_avrmatrix(sub_amp_datamatrix)
+    env_avr_datamatrix = get_avrmatrix(env_amp_datamatrix)
+    obj_avr_datamatrix = get_avrmatrix(obj_amp_datamatrix)
+    sub_min_datamatrix = get_minmatrix(sub_amp_datamatrix)
     sample_time = sample_time - slice_time_start
 
 
