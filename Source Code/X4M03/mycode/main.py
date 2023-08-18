@@ -1,6 +1,6 @@
 # import numpy as np
 from numpy import loadtxt
-from numpy.processing import slice_datamatrix, get_diffmatrix, get_median_matrix, get_stdmatrix, get_avrmatrix, get_minmatrix
+from processing import slice_datamatrix, get_diffmatrix, get_median_matrix, get_stdmatrix, get_avrmatrix, get_minmatrix
 
 from time import sleep
 

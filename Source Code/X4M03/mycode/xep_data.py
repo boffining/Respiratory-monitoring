@@ -4,7 +4,10 @@
 获得雷达数据帧（baseband）,包括幅度和相位信号
 '''
 
-import numpy as np
+# import numpy as np
+from numpy import array, arctan2, empty, savetxt, arange
+
+
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from time import sleep
@@ -75,20 +78,25 @@ class Xep_data(object):
         data = self.xep.read_message_data_float().data
         data_length = len(data)
 
-        i_vec = np.array(data[:data_length//2])
-        q_vec = np.array(data[data_length//2:])
+#         i_vec = np.array(data[:data_length//2])
+#         q_vec = np.array(data[data_length//2:])
+        i_vec = array(data[:data_length//2])
+        q_vec = array(data[data_length//2:])
         iq_vec = i_vec + 1j*q_vec
 
         ampli_data = abs(iq_vec)                       #振幅
-        phase_data = np.arctan2(q_vec, i_vec)          #相位
+#         phase_data = np.arctan2(q_vec, i_vec)          #相位
+        phase_data = arctan2(q_vec, i_vec) 
 
         return ampli_data, phase_data
 
     def get_data_matrix(self, sample_time, save = False):
         row = sample_time * self.FPS
         col = self.fast_sample_point
-        amp_matrix = np.empty([row, col])
-        pha_matrix = np.empty([row, col])
+#         amp_matrix = np.empty([row, col])
+#         pha_matrix = np.empty([row, col])
+        amp_matrix = empty([row, col])
+        pha_matrix = empty([row, col])
 
         old_time = datetime.datetime.now()
         print(old_time)
@@ -111,8 +119,10 @@ class Xep_data(object):
                 os.mkdir(path)
                 filename1 = path + '/amp_matrix.txt'
                 filename2 = path + '/pha_matrix.txt'
-                np.savetxt(filename1, amp_matrix)
-                np.savetxt(filename2, pha_matrix)
+#                 np.savetxt(filename1, amp_matrix)
+#                 np.savetxt(filename2, pha_matrix)
+                savetxt(filename1, amp_matrix)
+                savetxt(filename2, pha_matrix)
             else:
                 print('error:the folder exists!!!')
 
@@ -121,7 +131,8 @@ class Xep_data(object):
 
     def plot_frame(self, amp_matrix, pha_matrix, sample_time):
 
-        ax_x = np.arange((self.area_start-1e-5), (self.area_end-1e-5)+self.bin_length, self.bin_length)
+#         ax_x = np.arange((self.area_start-1e-5), (self.area_end-1e-5)+self.bin_length, self.bin_length)
+        ax_x = arange((self.area_start-1e-5), (self.area_end-1e-5)+self.bin_length, self.bin_length)
 
         fig = plt.figure()
         amp_fig = fig.add_subplot(2,1,1)
